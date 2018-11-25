@@ -115,7 +115,7 @@ function getIndexOfBestSingle(){
 	return bI;
 }
 
-function updateTables(){
+function updateTables(){ // loop this garbage boi, might be messy but still better than this shit
 	var row = table.insertRow(0);
 	var cell = row.insertCell(0);
 	var cell1 = row.insertCell(1);
