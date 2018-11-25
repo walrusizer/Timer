@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Untitled Document</title>
+    	<link href="styles/style.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+		<div class="row">
+			<div class="column" style="overflow-y:auto;">
+				<p>yo dawg, add a session selecter here</p>
+				<table>
+					<thead>
+						<td></td>
+						<td>Single</td>
+						<td>Mo3</td>
+						<td>Ao5</td>
+						<td>Ao12</td>
+						<td>Ao25</td>
+						<td>Ao50</td>
+						<td>Ao100</td>
+					</thead>
+					<tbody id="curr">
+						<td>Current:</td>
+						<td class="CellWithComment"><span class="CellComment"></span></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tbody>
+					<tbody id="bests">
+						<td>Best:</td>
+						<td class="CellWithComment"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tbody>
+				</table>
+				<p>Session History</p>
+				<table>
+					<thead>
+						<td>#</td>
+						<td>Single</td>
+						<td>Mo3</td>
+						<td>Ao5</td>
+						<td>Ao12</td>
+						<td>Ao25</td>
+						<td>Ao50</td>
+						<td>Ao100</td>
+					</thead>
+					<tbody id="timeList"></tbody>
+				</table>
+			</div>
+			
+			<div class="column">
+				<h1>L' D' R2 D2 B2 U L2 U L2 U' B2 L U' R' F2 L' B D L'</h1>
+				<h1 style="font-size: 48pt" id="mainTime">0.00</h1>
+			</div>
+			
+			<div class="column">
+				<h2>Lifetime Solves: </h2>
+				<h2 id="test">Total Solve Time: </h2>
+				<canvas id="myCanvas"></canvas>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="scripts/scrambleGenerator.js"></script>
+		<script type="text/javascript" src="scripts/Time.js"></script>
+		<script type="text/javascript" src="scripts/DrawGraphs.js"></script>
+		<script type="text/javascript" src="scripts/main.js"></script>
+		
+		
+	</body>
+</html>
