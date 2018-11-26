@@ -59,7 +59,7 @@ function update()
 
 requestAnimationFrame(update); // start update loop
 
-function calcAverage(t, size) // works backwards from start
+function calcAverage(t, size, startLoc) // works backwards from start
 {
 	var remove = Math.ceil(size * 0.05);
 	if (size == 3 || size == 1){ 
@@ -67,8 +67,8 @@ function calcAverage(t, size) // works backwards from start
 	}
 	var temp = [];
 	var avg = 0;
-	if (t.length >= size){
-		for (var i = t.length - size; i < t.length; i++){
+	if (startLoc >= size){
+		for (var i = startLoc - size; i < startLoc; i++){
 			temp.push(parseFloat(t[i].time));
 		}
 		temp.sort();
@@ -90,7 +90,7 @@ function calcBestAverage(t, size)
 		for (var i = loc; i < loc + size; i++){
 			temp.push(t[i]);
 		}
-		var avg = parseFloat(calcAverage(temp, size));
+		var avg = parseFloat(calcAverage(temp, size, temp.length));
 		if (avg < best){
 			best = avg;
 		}
@@ -144,7 +144,7 @@ function updateTables(locInArray){
 				break;
 		}
 		var c = row.insertCell(i);
-		c.innerHTML = calcAverage(times, avgSize);
+		c.innerHTML = calcAverage(times, avgSize, locInArray + 1);
 		bestsRow.cells[i].innerHTML = calcBestAverage(times, avgSize);
 		currRow.cells[i].innerHTML = c.innerHTML;
 	}
