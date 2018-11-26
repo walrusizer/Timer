@@ -47,6 +47,16 @@ document.onkeyup = function(evt){
 	}
 };
 
+/*document.onresize = function(){
+	width = window.innerWidth * 0.33333-10;
+	height = window.innerHeight;
+	canvas.width = width;
+	canvas.height = height;
+	if (times.length > 0){
+		drawGraph();
+	}
+};*/
+
 function update()
 {
 	if (timerRunning)
@@ -167,14 +177,21 @@ function updateTables(locInArray){
 	bestsRow.cells[1].appendChild(s2);
 }
 
-function getMaxTime(){
-	var max = 0;
+function getMinOrMaxTime(minmax){ // 1 for min, 2 for max
+	var goal = 0;
 	for (var i = 0; i < times.length; i++){
-		if (parseFloat(times[i].time) > max){
-			max = parseFloat(times[i].time);
+		if (minmax == 2){
+			if (parseFloat(times[i].time) > goal){
+				goal = parseFloat(times[i].time);
+			}
+		}
+		else if (minmax == 1){
+			if (parseFloat(times[i].time) < goal){
+				goal = parseFloat(times[i].time);
+			}
 		}
 	}
-	return max;
+	return goal;
 }
 
 function drawGraph(){
@@ -187,8 +204,8 @@ function drawGraph(){
 	if (times.count != 0 && times.count != 1) {
 		xScale = width / (times.length - 1);
 	}
-	var yScale = (height/2) / (getMaxTime() + 1);
-	ctx.fillStyle = "blue";
+	var yScale = (height/2) / (getMinOrMaxTime(2) + 1);
+	ctx.fillStyle = "red";
 	for (var i = 0; i < times.length; i++){
 		var x = i * xScale;
 		if (i == times.length - 1){
@@ -196,6 +213,12 @@ function drawGraph(){
 		}
 		var y = (parseFloat(times[i].time) * yScale) * - 1 + height / 2 - 2;
 		ctx.fillRect(x, y, 3, 3);
+	}
+	ctx.fillStyle = "blue";
+	for (var j = 0; j <= 5; j++){
+		var y = ((getMinOrMaxTime(2)/5) * yScale * j) * - 1 + height / 2 - 2;
+		ctx.fillRect(0, y, width, 1);
+		ctx.strokeText(((-y-2+(height/2))/yScale).toFixed(2), 0, y);
 	}
 }
 
