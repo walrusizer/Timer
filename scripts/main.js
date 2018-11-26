@@ -26,7 +26,7 @@ document.onkeydown = function(evt){
 		timerRunning = false;
 		ignorePress = true;
 		scrambleText.textContent = scramblers["333"].getRandomScramble().scramble_string; 
-		times.push(new Time(timerText.textContent, scrambleText.textContent, new Date()));
+		times.push(new Time(timerText.textContent, scrambleText.textContent, formatDate(new Date())));
 		updateTables(times.length - 1);
 		drawGraph();
 		saveToLocalFile();
@@ -155,7 +155,7 @@ function updateTables(locInArray){
 	row.cells[1].innerHTML = times[locInArray].time;
 	row.cells[1].className = "CellWithComment";
 	var s1 = document.createElement('span'); // for tooltip thingers
-	s1.innerHTML = times[locInArray].time + "<br/>" + times[locInArray].scramble + "<br/>" + times[locInArray].date.toDateString();
+	s1.innerHTML = times[locInArray].time + "<br/>" + times[locInArray].scramble + "<br/>" + times[locInArray].date;
 	s1.className = "CellComment";
 	row.cells[1].appendChild(s1);
 	var s1number2thisisstupid = s1.cloneNode(true);
@@ -163,7 +163,7 @@ function updateTables(locInArray){
 	var s2 = document.createElement('span'); // absolutely no idea why i have to create a new one of these for every solve but it doesn't seem to work any other way
 	s2.className = "CellComment";
 	var bestSingleLoc = getIndexOfBestSingle();
-	s2.innerHTML = times[bestSingleLoc].time + "<br/>" + times[bestSingleLoc].scramble + "<br/>" + times[bestSingleLoc].date.toDateString(); // TODO: dd/mm/yyyy format
+	s2.innerHTML = times[bestSingleLoc].time + "<br/>" + times[bestSingleLoc].scramble + "<br/>" + times[bestSingleLoc].date; // TODO: dd/mm/yyyy format
 	bestsRow.cells[1].appendChild(s2);
 }
 
@@ -199,6 +199,10 @@ function drawGraph(){
 	}
 }
 
+function formatDate(d){
+	return (d.getMonth() + 1) + '/' + d.getDate() + '/' +  d.getFullYear();
+}
+
 function saveToLocalFile(){
 	var t = [];
 	var s = [];
@@ -219,7 +223,7 @@ function readFromLocalFile(){
 		var s = localStorage.getItem('scrambles').split("|");
 		var d = localStorage.getItem('dates').split("|");
 		for (var i = 0; i < t.length; i++){
-			times.push(new Time(t[i], s[i], new Date(d[i])));
+			times.push(new Time(t[i], s[i], formatDate(new Date(d[i]))));
 			updateTables(times.length - 1);
 		}
 		drawGraph();
