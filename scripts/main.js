@@ -214,14 +214,16 @@ function saveToLocalFile(){
 }
 
 function readFromLocalFile(){
-	var t = localStorage.getItem('times').split("|");
-	var s = localStorage.getItem('scrambles').split("|");
-	var d = localStorage.getItem('dates').split("|");
-	for (var i = 0; i < t.length; i++){
-		times.push(new Time(t[i], s[i], new Date(d[i])));
-		updateTables(times.length - 1);
+	if (localStorage.getItem('times') != null){
+		var t = localStorage.getItem('times').split("|");
+		var s = localStorage.getItem('scrambles').split("|");
+		var d = localStorage.getItem('dates').split("|");
+		for (var i = 0; i < t.length; i++){
+			times.push(new Time(t[i], s[i], new Date(d[i])));
+			updateTables(times.length - 1);
+		}
+		drawGraph();
 	}
-	drawGraph();
 }
 
 
