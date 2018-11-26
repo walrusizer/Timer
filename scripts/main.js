@@ -16,6 +16,8 @@ canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext("2d");
 
+readFromLocalFile();
+
 document.onkeydown = function(evt){
 	evt = evt || window.event;
 	var charCode = evt.keyCode || evt.which;
@@ -27,6 +29,7 @@ document.onkeydown = function(evt){
 		times.push(new Time(timerText.textContent, scrambleText.textContent, new Date()));
 		updateTables(times.length - 1);
 		drawGraph();
+		saveToLocalFile();
 	}
 	return !(evt.keyCode == 32 && evt.target == document.body); // don't scroll down when pressing space
 };
@@ -196,7 +199,30 @@ function drawGraph(){
 	}
 }
 
-//drawGraph();
+function saveToLocalFile(){
+	var t = [];
+	var s = [];
+	var d = [];
+	for (var i = 0; i < times.length; i++){
+		t.push(times[i].time);
+		s.push(times[i].scramble);
+		d.push(times[i].date);
+	}
+	localStorage.setItem('times', t.join("|"));
+	localStorage.setItem('scrambles', s.join("|"));
+	localStorage.setItem('dates', d.join("|"));
+}
+
+function readFromLocalFile(){
+	var t = localStorage.getItem('times').split("|");
+	var s = localStorage.getItem('scrambles').split("|");
+	var d = localStorage.getItem('dates').split("|");
+	for (var i = 0; i < t.length; i++){
+		times.push(new Time(t[i], s[i], new Date(d[i])));
+		updateTables(times.length - 1);
+	}
+	drawGraph();
+}
 
 
 
