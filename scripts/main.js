@@ -25,7 +25,7 @@ document.onkeydown = function(evt){
 		ignorePress = true;
 		scrambleText.textContent = scramblers["333"].getRandomScramble().scramble_string; 
 		times.push(new Time(timerText.textContent, scrambleText.textContent, new Date()));
-		updateTables();
+		updateTables(times.length - 1);
 		drawGraph();
 	}
 	return !(evt.keyCode == 32 && evt.target == document.body); // don't scroll down when pressing space
@@ -112,7 +112,7 @@ function getIndexOfBestSingle(){
 	return bI;
 }
 
-function updateTables(){ 
+function updateTables(locInArray){ 
 	var row = table.insertRow(0);
 	var cell = row.insertCell(0);
 	var bestsRow = bests.rows[0];
@@ -148,11 +148,11 @@ function updateTables(){
 		bestsRow.cells[i].innerHTML = calcBestAverage(times, avgSize);
 		currRow.cells[i].innerHTML = c.innerHTML;
 	}
-	cell.innerHTML = times.length;
-	row.cells[1].innerHTML = times[times.length - 1].time;
+	cell.innerHTML = locInArray + 1;
+	row.cells[1].innerHTML = times[locInArray].time;
 	row.cells[1].className = "CellWithComment";
 	var s1 = document.createElement('span'); // for tooltip thingers
-	s1.innerHTML = times[times.length - 1].time + "<br/>" + times[times.length - 1].scramble + "<br/>" + times[times.length - 1].date.toDateString();
+	s1.innerHTML = times[locInArray].time + "<br/>" + times[locInArray].scramble + "<br/>" + times[locInArray].date.toDateString();
 	s1.className = "CellComment";
 	row.cells[1].appendChild(s1);
 	var s1number2thisisstupid = s1.cloneNode(true);
