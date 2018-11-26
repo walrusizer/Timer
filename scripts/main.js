@@ -20,8 +20,7 @@ document.onkeydown = function(evt){
 	evt = evt || window.event;
 	var charCode = evt.keyCode || evt.which;
 	
-	if (charCode == space && timerRunning) // stop timer
-	{
+	if (charCode == space && timerRunning){ // stop timer
 		timerRunning = false;
 		ignorePress = true;
 		scrambleText.textContent = scramblers["333"].getRandomScramble().scramble_string; 
@@ -36,13 +35,11 @@ document.onkeyup = function(evt){
 	evt = evt || window.event;
 	var charCode = evt.keyCode || evt.which;
 	
-	if (charCode == space && !timerRunning && !ignorePress)
-	{
+	if (charCode == space && !timerRunning && !ignorePress){
 		startTime = new Date();
 		timerRunning = true;
 	}
-	else if (charCode == space)
-	{
+	else if (charCode == space){
 		ignorePress = false;
 	}
 };
@@ -115,50 +112,56 @@ function getIndexOfBestSingle(){
 	return bI;
 }
 
-function updateTables(){ // loop this garbage boi, might be messy but still better than this shit
+function updateTables(){ 
 	var row = table.insertRow(0);
 	var cell = row.insertCell(0);
-	var cell1 = row.insertCell(1);
-	var cell2 = row.insertCell(2);
-	var cell3 = row.insertCell(3);
-	var cell4 = row.insertCell(4);
-	var cell5 = row.insertCell(5);
-	var cell6 = row.insertCell(6);
-	var cell7 = row.insertCell(7);
+	var bestsRow = bests.rows[0];
+	var currRow = current.rows[0];
+	
+	for (var i = 1; i < 8; i++){
+		var avgSize;
+		switch (i){
+			case 1:
+				avgSize = 1;
+				break;
+			case 2:
+				avgSize = 3;
+				break;
+			case 3:
+				avgSize = 5;
+				break;
+			case 4:
+				avgSize = 12;
+				break;
+			case 5:
+				avgSize = 25;
+				break;
+			case 6:
+				avgSize = 50;
+				break;
+			case 7:
+				avgSize = 100;
+				break;
+		}
+		var c = row.insertCell(i);
+		c.innerHTML = calcAverage(times, avgSize);
+		bestsRow.cells[i].innerHTML = calcBestAverage(times, avgSize);
+		currRow.cells[i].innerHTML = c.innerHTML;
+	}
 	cell.innerHTML = times.length;
-	cell1.innerHTML = timerText.textContent;
-	cell1.className = "CellWithComment";
+	row.cells[1].innerHTML = times[times.length - 1].time;
+	row.cells[1].className = "CellWithComment";
 	var s1 = document.createElement('span'); // for tooltip thingers
 	s1.innerHTML = times[times.length - 1].time + "<br/>" + times[times.length - 1].scramble + "<br/>" + times[times.length - 1].date.toDateString();
 	s1.className = "CellComment";
-	cell1.appendChild(s1);
-	cell2.innerHTML = calcAverage(times, 3);
-	cell3.innerHTML = calcAverage(times, 5);
-	cell4.innerHTML = calcAverage(times, 12);
-	cell5.innerHTML = calcAverage(times, 25);
-	cell6.innerHTML = calcAverage(times, 50);
-	cell7.innerHTML = calcAverage(times, 100);
-	var bestsRow = bests.rows[0];
-	bestsRow.cells[1].innerHTML = calcBestAverage(times, 1);
+	row.cells[1].appendChild(s1);
+	var s1number2thisisstupid = s1.cloneNode(true);
+	currRow.cells[1].appendChild(s1number2thisisstupid);
 	var s2 = document.createElement('span'); // absolutely no idea why i have to create a new one of these for every solve but it doesn't seem to work any other way
 	s2.className = "CellComment";
 	var bestSingleLoc = getIndexOfBestSingle();
 	s2.innerHTML = times[bestSingleLoc].time + "<br/>" + times[bestSingleLoc].scramble + "<br/>" + times[bestSingleLoc].date.toDateString(); // TODO: dd/mm/yyyy format
 	bestsRow.cells[1].appendChild(s2);
-	bestsRow.cells[2].innerHTML = calcBestAverage(times, 3);
-	bestsRow.cells[3].innerHTML = calcBestAverage(times, 5);
-	bestsRow.cells[4].innerHTML = calcBestAverage(times, 12);
-	bestsRow.cells[5].innerHTML = calcBestAverage(times, 25);
-	bestsRow.cells[6].innerHTML = calcBestAverage(times, 50);
-	bestsRow.cells[7].innerHTML = calcBestAverage(times, 100);
-	var currRow = current.rows[0];
-	currRow.cells[1].innerHTML = cell1.innerHTML;
-	currRow.cells[2].innerHTML = cell2.innerHTML;
-	currRow.cells[3].innerHTML = cell3.innerHTML;
-	currRow.cells[4].innerHTML = cell4.innerHTML;
-	currRow.cells[5].innerHTML = cell5.innerHTML;
-	currRow.cells[6].innerHTML = cell6.innerHTML;
-	currRow.cells[7].innerHTML = cell7.innerHTML;
 }
 
 function getMaxTime(){
