@@ -16,6 +16,7 @@ canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext("2d");
 
+
 readFromLocalFile();
 
 document.onkeydown = function(evt){
@@ -165,8 +166,12 @@ function updateTables(locInArray){
 	row.cells[1].innerHTML = times[locInArray].time;
 	row.cells[1].className = "CellWithComment";
 	var s1 = document.createElement('span'); // for tooltip thingers
-	s1.innerHTML = times[locInArray].time + "<br/>" + times[locInArray].scramble + "<br/>" + times[locInArray].date;
+	var deleteButton = document.createElement('button');
+	deleteButton.innerHTML = "X";
+	deleteButton.onclick = function(){onDeleteButtonClick();};
+	s1.innerHTML = times[locInArray].time + "<br/>" + times[locInArray].scramble + "<br/>" + times[locInArray].date + "<br/>";
 	s1.className = "CellComment";
+	s1.appendChild(deleteButton);
 	row.cells[1].appendChild(s1);
 	var s1number2thisisstupid = s1.cloneNode(true);
 	currRow.cells[1].appendChild(s1number2thisisstupid);
@@ -175,6 +180,10 @@ function updateTables(locInArray){
 	var bestSingleLoc = getIndexOfBestSingle();
 	s2.innerHTML = times[bestSingleLoc].time + "<br/>" + times[bestSingleLoc].scramble + "<br/>" + times[bestSingleLoc].date; // TODO: dd/mm/yyyy format
 	bestsRow.cells[1].appendChild(s2);
+}
+
+function onDeleteButtonClick(){
+	scrambleText.textContent = "Test";
 }
 
 function getMinOrMaxTime(minmax){ // 1 for min, 2 for max
